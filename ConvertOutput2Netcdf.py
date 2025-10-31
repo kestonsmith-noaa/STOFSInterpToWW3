@@ -65,16 +65,20 @@ def loadWW3MeshCoords(fl):
 
 
 N=int(sys.argv[1])
-#flout=sys.argv[2]
-flout="etest.nc"
-#data=np.array([])
+mesh=sys.argv[2]
+flout=sys.argv[3]
+flin=sys.argv[4]
+print("Combining "+str(N)+"interpolations to mesh: "+mesh+"from stofs file:",flin )
+print("Output will be written to :"+flout)
+
+#flout="etest.nc"
 k=0    
-fl="global_1deg_unstr.files/zeta.global_1deg_unstr."+str(k)+".txt"
+fl=mesh+".files/zeta."+mesh+"."+str(k)+".txt"
 data=np.loadtxt(fl)
 
 for k in range(N):
     if k >0:
-        fl="global_1deg_unstr.files/zeta.global_1deg_unstr."+str(k)+".txt"
+        fl=mesh+".files/zeta."+mesh+"."+str(k)+".txt"
         datal=np.loadtxt(fl)
         data=np.hstack((data,datal))
         print("reading data part: "+str(k)+" of "+str(N))
@@ -108,14 +112,14 @@ nn=data.shape[1]
 print("nn="+str(nn))
 print("nt="+str(nt))
 #datat=np.transpose(data)
-flmsh="meshes/global_1deg_unstr.msh"
+flmsh="meshes/"+mesh+".msh"
 xi,yi,ei=loadWW3MeshCoords(flmsh)
 ne=ei.shape[0]
 nn=len(xi)
 print('nn ='+str(nn))
 print('ne ='+str(ne))
 
-flin='20241201/stofs_2d_glo.t00z.fields.htp.nc'
+#flin='20241201/stofs_2d_glo.t00z.fields.htp.nc'
 data0 = nc.Dataset(flin,"r")
 time=np.asarray(data0["time"][:])
 nt=len(time)

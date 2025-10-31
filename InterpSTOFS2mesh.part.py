@@ -28,8 +28,10 @@ def loadWW3MeshCoords(fl):
         #print(A)
         values = A.split(" ")
         #print(values)
-        xi[k]=values[2]
-        yi[k]=values[4]
+        xi[k]=values[1]
+        yi[k]=values[2]
+#        xi[k]=values[2]
+#        yi[k]=values[4]
         k=k+1
     return xi, yi
 
@@ -61,17 +63,19 @@ def ReadWeights(fl):
     weights=np.array(weights)
     return nodes, weights
 
-
+#f.write("srun python3 InterpSTOFS2mesh.part.py $SLURM_ARRAY_TASK_ID "+mesh+" "+STOFSfl+" > InterpJob.$SLURM_ARRAY_TASK_ID.out")
 
 N=int(sys.argv[1])
 #File locations and parameter specifications
-mesh="global_1deg_unstr"
+#mesh="global_1deg_unstr"
+mesh=sys.argv[2]
+flinz=sys.argv[3]
 OutDir=mesh+".files/"
 flmsh="meshes/"+mesh+".msh"
-flinz="20241201/stofs_2d_glo.t00z.fields.htp.nc"
-floutw=OutDir+"InterpWeights.global_1deg_unstr."+str(N)
-floutz=OutDir+"zeta.global_1deg_unstr."+str(N)
-ComputeWeights = False
+#flinz="20241201/stofs_2d_glo.t00z.fields.htp.nc"
+floutw=OutDir+"InterpWeights."+mesh+"."+str(N)
+floutz=OutDir+"zeta."+mesh+"."+str(N)
+ComputeWeights = True
 #Only search elements within MaxDist x MaxDist box of interpolation point
 #This is only used to speed up finding element the point is within
 MaxDist=.5 #(degrees of lat and lon)

@@ -50,7 +50,7 @@ def FindElement(x,y,e,xi,yi):
         
     return j
 
-def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi, flout):
+def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi, flout, MaxDist):
     """
     Compute mesh-to-mesh interpolation weights using barycentric coordinates.
     
@@ -82,7 +82,7 @@ def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi, flout):
     """
     
     # Convert to numpy arrays
-    MaxDist=0.25 # maximum distance to use in interpolation
+#    MaxDist=0.25 # maximum distance to use in interpolation
     
     x = np.asarray(x)
     y = np.asarray(y)
@@ -186,12 +186,13 @@ def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi, flout):
                 print(f"Progress: {k+1}/{n_points}")
                 print(f"Time remaining: {time_remaining:.2f} minutes")
 
-    # Save results to file (using NumPy's format)
-        np.savez(flout, 
-             weights=weights, 
-             nodes=nodes, 
-             elenum=elenum, 
-             Dist2EleCenter=Dist2EleCenter)
+    # Save results to file (using NumPy's format) 
+# These files are O(100) times the size of the ascii files with same data 
+#        np.savez(flout, 
+#             weights=weights, 
+#             nodes=nodes, 
+#             elenum=elenum, 
+#             Dist2EleCenter=Dist2EleCenter)
     
     print(f"Results saved to {flout}.npz")
     
